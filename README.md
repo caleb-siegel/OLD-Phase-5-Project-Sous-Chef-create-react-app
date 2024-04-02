@@ -7,3 +7,6 @@ For the frontend
 For the backend
 - run "pipenv install"
 - activate the local environment by running "pipenv shell"
+
+Link to ERD:
+https://miro.com/app/board/uXjVKZjGWME=/

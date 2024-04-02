@@ -65,5 +65,53 @@ def root():
 #         print(e)
 #         return {"error": f"could not post user: {e}"}, 405
 
+# @app.get('/sourcecategories')
+# def get_source_categories():
+#     source_categories = [source_categories.to_dict() for source_category in Source_Category.query.filter_by(user_id=session['user_id']).all()]
+#     return make_response( source_categories, 200 )
+
+@app.route('/sourcecategories')
+def get_source_categories():
+    source_categories = [source_categories.to_dict() for source_categories in Source_Category.query.all()]
+    return make_response( source_categories, 200 )
+
+@app.route('/recipe', methods=['GET', 'POST'])
+def recipes():
+
+    if request.method == 'GET':
+        recipes = []
+        for recipe in Recipe.query.all():
+            recipe_dict = recipe.to_dict()
+            recipes.append(recipe_dict)
+
+        response = make_response(
+            recipes,
+            200
+        )
+
+        return response
+
+    elif request.method == 'POST':
+        new_recipe = Recipe(
+            name=request.json.get("name"),
+            picture=request.json.get("picture"),
+            source_category_id=request.json.get("source_category_id"),
+            source=request.json.get("source"),
+            reference=request.json.get("reference"),
+            instructions=request.json.get("instructions"),
+        )
+
+        db.session.add(new_recipe)
+        db.session.commit()
+
+        new_recipe_dict = new_recipe.to_dict()
+
+        response = make_response(
+            new_recipe_dict,
+            201
+        )
+
+        return response
+    
 if __name__ == "__main__":
     app.run(port=5555, debug=True)

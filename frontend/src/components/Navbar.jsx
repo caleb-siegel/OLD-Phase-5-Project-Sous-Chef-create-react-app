@@ -6,6 +6,9 @@ function Navbar() {
             <div>
                 <NavLink to="/">Home</NavLink>
             </div>
+            <div>
+                <NavLink to="addrecipe">Add Recipe</NavLink>
+            </div>
             {/* <div>
                 <NavLink to="recipelist" className={"nav-link"}>Home</NavLink>
             </div>
