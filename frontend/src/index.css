@@ -11,3 +11,19 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.navbar {
+  padding-top: 10px;
+  padding-bottom: 40px
+}
+
+.nav-link {
+  display: flex;
+  margin-right: 20px;
+  float: left
+}
+
+.recipe-directory-image {
+  height: auto; 
+max-width: 10%;
+}

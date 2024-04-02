@@ -7,6 +7,7 @@ import App from './App';
 import Error from './components/Error';
 import Home from './components/Home';
 import AddRecipe from './components/AddRecipe';
+import RecipeDirectory from './components/RecipeDirectory';
 
 const router = createBrowserRouter([
   {
@@ -21,15 +22,11 @@ const router = createBrowserRouter([
       {
         path: "addrecipe",
         element: <AddRecipe />
+      },
+      {
+        path: "recipedirectory",
+        element: <RecipeDirectory />
       }
-      // {
-      //   path: "recipelist",
-      //   element: <RecipeList />
-      // },
-      // {
-      //   path: "newrecipe",
-      //   element: <NewRecipe />
-      // },
       // {
       //   path: "notreorders",
       //   element: <NotReorders />

@@ -2,12 +2,15 @@ import { NavLink } from "react-router-dom";
 
 function Navbar() {
     return (
-        <nav>
+        <nav className="navbar">
             <div>
-                <NavLink to="/">Home</NavLink>
+                <NavLink to="/" className={"nav-link"}>Home</NavLink>
             </div>
             <div>
-                <NavLink to="addrecipe">Add Recipe</NavLink>
+                <NavLink to="addrecipe" className={"nav-link"}>Add Recipe</NavLink>
+            </div>
+            <div>
+                <NavLink to="recipedirectory" className={"nav-link"}>Recipe Directory</NavLink>
             </div>
             {/* <div>
                 <NavLink to="recipelist" className={"nav-link"}>Home</NavLink>
