@@ -1,17 +1,15 @@
 import { NavLink } from "react-router-dom";
+import { Container } from "@mui/material";
 
 function Navbar() {
     return (
-        <nav className="navbar">
-            <div>
+        <Container className="navbar">
+            <Container>
                 <NavLink to="/" className={"nav-link"}>Home</NavLink>
-            </div>
-            <div>
-                <NavLink to="addrecipe" className={"nav-link"}>Add Recipe</NavLink>
-            </div>
-            <div>
+            </Container>
+            <Container>
                 <NavLink to="recipedirectory" className={"nav-link"}>Recipe Directory</NavLink>
-            </div>
+            </Container>
             {/* <div>
                 <NavLink to="recipelist" className={"nav-link"}>Home</NavLink>
             </div>
@@ -21,7 +19,7 @@ function Navbar() {
             <div>
                 <NavLink to="notreorders" className={"nav-link"}>Not Reorders</NavLink>
             </div> */}
-        </nav>
+        </Container>
     )
 }
 

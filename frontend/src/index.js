@@ -6,8 +6,9 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from './App';
 import Error from './components/Error';
 import Home from './components/Home';
-import AddRecipe from './components/AddRecipe';
 import RecipeDirectory from './components/RecipeDirectory';
+import { ThemeProvider } from '@emotion/react';
+import { createTheme } from '@mui/material';
 
 const router = createBrowserRouter([
   {
@@ -18,10 +19,6 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Home />
-      },
-      {
-        path: "addrecipe",
-        element: <AddRecipe />
       },
       {
         path: "recipedirectory",
@@ -35,10 +32,39 @@ const router = createBrowserRouter([
   }
 ])
 
+const theme = createTheme({
+  palette: {
+    primary: {
+      // main: "#013e87",
+      main: "#3FFFC2",
+    },
+    secondary: {
+      // main: '#2e7c9'
+      main: '#FF7D45'
+    },
+  },
+  typography: {
+    h1: {
+      fontSize: "3rem",
+      fontWeight: 600,
+    },
+    h2: {
+      fontSize: "1.75rem",
+      fontWeight: 600,
+    },
+    h3: {
+      fontSize: "1.5rem",
+      fontWeight: 600,
+    },
+  },
+})
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+      <ThemeProvider theme={theme}>
+        <RouterProvider router={router} />
+      </ThemeProvider>
   </React.StrictMode>
 );
 

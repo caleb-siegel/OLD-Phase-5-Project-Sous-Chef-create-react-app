@@ -75,12 +75,17 @@ def get_source_categories():
     source_categories = [source_categories.to_dict() for source_categories in Source_Category.query.all()]
     return make_response( source_categories, 200 )
 
-@app.route('/recipe', methods=['GET', 'POST'])
+@app.route('/tags')
+def get_tags():
+    tags = [tags.to_dict() for tags in Tag.query.all()]
+    return make_response( tags, 200 )
+
+@app.route('/recipes', methods=['GET', 'POST'])
 def recipes():
 
     if request.method == 'GET':
         recipes = []
-        for recipe in Recipe.query.all():
+        for recipe in Recipe.query.order_by(Recipe.id.desc()).all():
             recipe_dict = recipe.to_dict()
             recipes.append(recipe_dict)
 
@@ -108,6 +113,40 @@ def recipes():
 
         response = make_response(
             new_recipe_dict,
+            201
+        )
+
+        return response
+    
+@app.route('/recipetags', methods=['GET', 'POST'])
+def recipe_tags():
+
+    if request.method == 'GET':
+        recipe_tags = []
+        for recipe_tag in Recipe_Tag.query.all():
+            recipe_tag_dict = recipe_tag.to_dict()
+            recipe_tags.append(recipe_tag_dict)
+
+        response = make_response(
+            recipe_tags,
+            200
+        )
+
+        return response
+
+    elif request.method == 'POST':
+        new_recipe_tag = Recipe_Tag(
+            recipe_id=request.json.get("recipe_id"),
+            tag_id=request.json.get("tag_id"),
+        )
+
+        db.session.add(new_recipe_tag)
+        db.session.commit()
+
+        new_recipe_tag_dict = new_recipe_tag.to_dict()
+
+        response = make_response(
+            new_recipe_tag_dict,
             201
         )
 
