@@ -1,7 +1,10 @@
 import { NavLink } from "react-router-dom";
 import { Container } from "@mui/material";
+import Switch from "@mui/material/Switch";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormGroup from "@mui/material/FormGroup";
 
-function Navbar({ user, logout }) {
+function Navbar({ user, logout, darkMode, toggleDarkMode }) {
 
     return (
         <Container className="navbar">
@@ -26,15 +29,11 @@ function Navbar({ user, logout }) {
                     </Container>
                 </Container>
             }
-            {/* <div>
-                <NavLink to="recipelist" className={"nav-link"}>Home</NavLink>
-            </div>
-            <div>
-                <NavLink to="newrecipe" className={"nav-link"}>New Recipe</NavLink>
-            </div>
-            <div>
-                <NavLink to="notreorders" className={"nav-link"}>Not Reorders</NavLink>
-            </div> */}
+            <Container sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                <FormGroup>
+                    <FormControlLabel control={<Switch defaultChecked onChange={toggleDarkMode} />} label={darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'} />
+                </FormGroup>
+            </Container>
         </Container>
     )
 }

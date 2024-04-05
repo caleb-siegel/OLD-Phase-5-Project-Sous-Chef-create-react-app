@@ -20,10 +20,10 @@ code {
 .nav-link {
   display: flex;
   margin-right: 20px;
-  float: left
+  float: left;
 }
 
 .recipe-directory-image {
   height: auto; 
-max-width: 10%;
+  max-width: 10%;
 }

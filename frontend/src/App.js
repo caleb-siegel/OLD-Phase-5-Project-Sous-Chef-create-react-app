@@ -4,6 +4,9 @@ import Navbar from './components/Navbar';
 import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import { Container, Typography } from '@mui/material';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Switch from '@mui/material/Switch';
 
 function App() {
 
@@ -52,11 +55,19 @@ function App() {
     });
   }
 
+  const [darkMode, setDarkMode] = useState(false);
+
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
+    // Toggle dark mode class on the body element
+    document.body.classList.toggle('dark-mode');
+  };
+
   return (
     <Container className="">
       <Container sx={{ height: '100vh'}}>
         <Typography>
-          <Navbar logout={logout} user={user}/>
+          <Navbar logout={logout} user={user} toggleDarkMode={toggleDarkMode} darkMode={darkMode}/>
           <Outlet context={{ user, attemptLogin, logout }}/>
         </Typography>
       </Container>
