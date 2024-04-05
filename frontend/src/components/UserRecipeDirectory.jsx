@@ -3,24 +3,18 @@ import AddRecipe from "./AddRecipe";
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
-import { Card, CardContent, CardHeader, CardMedia, Container } from "@mui/material";
+import { Card, CardHeader, CardMedia, Container } from "@mui/material";
 import Chip from "@mui/material/Chip";
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import Filter from "./Filter";
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import IconButton from "@mui/material/IconButton";
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import { useOutletContext } from "react-router-dom";
-import Alert from "@mui/material/Alert";
 
 function RecipeDirectory() {
-    const {user} = useOutletContext();
-
-    const [recipes, setRecipes] = useState([]);
+    
+    const [userRecipes, setUserRecipes] = useState([]);
     useEffect(() => {
-        fetch("http://127.0.0.1:5555/recipes")
+        fetch("/userrecipes")
         .then((response) => response.json())
-        .then((data) => setRecipes(data));
+        .then((data) => setUserRecipes(data));
     }, []);
 
     const [tags, setTags] = useState([]);
@@ -29,8 +23,6 @@ function RecipeDirectory() {
         .then((response) => response.json())
         .then((data) => setTags(data));
     }, []);
-
-    
 
     const [addRecipe, setAddRecipe] = useState(false)
     let addRecipeButtonText;
@@ -80,7 +72,7 @@ function RecipeDirectory() {
         setFilterValue(event.target.value);
     };
 
-    const filteredRecipes = recipes.filter(recipe => {
+    const filteredRecipes = userRecipes.filter(recipe => {
         if (filterType === "include") {
             if (filterBy === "recipeName") {
                 return (
@@ -120,51 +112,36 @@ function RecipeDirectory() {
         }    
     });
 
-    console.log(recipes);
-    console.log(filteredRecipes);
-
-    const [favoriteIconButton, setFavoriteIconButton] = useState(<FavoriteBorderIcon color="primary"/>)
-    const handleFavorites = (event, id) => {
-        if (user) {
-            setFavoriteIconButton(<FavoriteIcon color="primary"/>)
-        }
-        
-    }
-
     return (
         <Container>
             <Button variant={variantAddRecipe} color="primary" size="small" startIcon={startIconAddRecipe} value={addRecipe} onClick={(event) => handleAddRecipe(event)}>{addRecipeButtonText}</Button>
             {addRecipe &&
-                <AddRecipe recipes={recipes} setRecipes={setRecipes} handleAddRecipe={handleAddRecipe} tags={tags}/>
+                <AddRecipe recipes={userRecipes} setRecipes={setUserRecipes} handleAddRecipe={handleAddRecipe} tags={tags}/>
             }
 
             <h1>Recipe Directory</h1>
             <Button variant={variantFilter} color="primary" size="small" startIcon={<FilterAltIcon />} value={addFilter} onClick={(event) => handleAddFilter(event)}>{filterButtonText}</Button>
             <br />
             {addFilter &&
-                <Filter recipes={recipes} setRecipes={setRecipes} handleAddRecipe={handleAddRecipe} filterValue={filterValue} handleFilterValueChange={handleFilterValueChange} filterType={filterType} handleFilterTypeChange={handleFilterTypeChange} filterBy={filterBy} handleFilterByChange={handleFilterByChange} tags={tags}/>
+                <Filter recipes={userRecipes} setRecipes={setUserRecipes} handleAddRecipe={handleAddRecipe} filterValue={filterValue} handleFilterValueChange={handleFilterValueChange} filterType={filterType} handleFilterTypeChange={handleFilterTypeChange} filterBy={filterBy} handleFilterByChange={handleFilterByChange} tags={tags}/>
             }
             <div style={{ display: 'flex', flexWrap: 'wrap' }}>
                 {filteredRecipes.map((recipe) => (
                     <Card key={recipe.id} sx={{ maxWidth: 345, margin: '10px' }}>
                         <CardHeader
-                        title={recipe.name}
-                        action={
-                            <IconButton size="small" sx={{ bgcolor:"primary" }} onClick={(event, id) => handleFavorites()}>
-                                {favoriteIconButton}
-                            </IconButton>
-                        }
+                        // avatar={
+                        //     <Avatar sx={{ bgcolor:"primary" }} aria-label="recipe">
+                        //     R
+                        //     </Avatar>
+                        // }
                         // action={
                         //     <IconButton aria-label="settings">
                         //     <MoreVertIcon />
                         //     </IconButton>
                         // }
-                        
+                        title={recipe.name}
                         // subheader=
                         />
-                        {/* <Alert severity="error" onClose={handleCloseAlert} open={showAlert}>
-                            Sign in to save recipe to your cookbook
-                        </Alert> */}
                         <CardMedia
                         component="img"
                         height="194"

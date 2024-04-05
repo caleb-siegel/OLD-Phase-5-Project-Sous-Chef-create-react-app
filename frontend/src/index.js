@@ -9,6 +9,8 @@ import Home from './components/Home';
 import RecipeDirectory from './components/RecipeDirectory';
 import { ThemeProvider } from '@emotion/react';
 import { createTheme } from '@mui/material';
+import Login from './components/Login';
+import UserRecipeDirectory from './components/UserRecipeDirectory';
 
 const router = createBrowserRouter([
   {
@@ -23,6 +25,14 @@ const router = createBrowserRouter([
       {
         path: "recipedirectory",
         element: <RecipeDirectory />
+      },
+      {
+        path: "login",
+        element: <Login />,
+      },
+      {
+        path: "userrecipes",
+        element: <UserRecipeDirectory />,
       }
       // {
       //   path: "notreorders",

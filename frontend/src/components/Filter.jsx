@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -7,24 +7,18 @@ import FormLabel from '@mui/material/FormLabel';
 import { Container } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import Paper from '@mui/material/Paper';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import Button from '@mui/material/Button';
+import AddIcon from '@mui/icons-material/Add';
 
-function Filter() {
-    const [filterType, setFilterType] = React.useState('include');
-    const [filterBy, setFilterBy] = React.useState('recipeName');
-    const [filterText, setFilterText] = React.useState('');
 
-    const handleFilterTypeChange = (event) => {
-        setFilterType(event.target.value);
-      };
-    
-      const handleFilterByChange = (event) => {
-        setFilterBy(event.target.value);
-      };
-    
-      const handleFilterTextChange = (event) => {
-        setFilterText(event.target.value);
-      };
+function Filter({ filterValue, handleFilterValueChange, filterType, handleFilterTypeChange, filterBy, handleFilterByChange, tags }) {
   
+    const handleAddFilter = () => {
+
+    }
     return (
         <Paper elevation={3} sx={{ backgroundColor: '#D4D7D5', padding: '20px', width: '250px'}}>
             <FormControl>
@@ -54,8 +48,30 @@ function Filter() {
                     <FormControlLabel value="tag" control={<Radio />} label="Tag" />
                     <FormControlLabel value="ingredients" control={<Radio />} label="Ingredients" />
                 </RadioGroup>
-                <TextField id="outlined-basic" label="Filter" variant="standard" value={filterText} onChange={handleFilterTextChange}/>
+                {(filterBy === "recipeName" || filterBy === "ingredients") && 
+                    <TextField id="outlined-basic" label="Filter" variant="standard" value={filterValue} onChange={handleFilterValueChange}/>
+                }
+                {filterBy === "tag" &&
+                    <div>
+                        <InputLabel id="demo-simple-select-label">Tag</InputLabel>
+                        <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={filterValue}
+                            label="Source Category"
+                            onChange={handleFilterValueChange}
+                        >
+                            {tags.map(tag => {
+                                return <MenuItem key={tag.id} value={tag.name}>{tag.name}</MenuItem>
+
+                            })}
+                        </Select>
+                    </div>
+                }
             </FormControl>
+            <br />
+            {/* <br />
+            <Button variant="contained" color="primary" startIcon={<AddIcon/>} onClick={handleAddFilter}>Add Another Filter</Button> */}
         </Paper>
     );
 }

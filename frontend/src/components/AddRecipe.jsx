@@ -6,28 +6,25 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import Tag from "./Tag";
 import { Paper } from "@mui/material";
+import { useOutletContext } from "react-router-dom";
 
-function AddRecipe({ setRecipes, recipes, handleAddRecipe }) {
+function AddRecipe({ setRecipes, recipes, handleAddRecipe, tags }) {
     const [name, setName] = useState("");
     const [picture, setPicture] = useState("");
     const [sourceCategoryInput, setSourceCategoryInput] = useState("");
     const [sourceName, setSourceName] = useState("");
     const [reference, setReference] = useState("");
     const [recipeInstructions, setRecipeInstructions] = useState("");
-    
+    const {user} = useOutletContext();
+
     const [sourceCategories, setSourceCategories] = useState([]);
     useEffect(() => {
-        fetch("http://127.0.0.1:5555/sourcecategories")
+        fetch("/sourcecategories")
         .then((response) => response.json())
         .then((data) => setSourceCategories(data));
     }, []);
 
-    const [tags, setTags] = useState([]);
-    useEffect(() => {
-        fetch("http://127.0.0.1:5555/tags")
-        .then((response) => response.json())
-        .then((data) => setTags(data));
-    }, []);
+    
 
     const [selectedTags, setSelectedTags] = useState([]);
 
@@ -55,7 +52,7 @@ function AddRecipe({ setRecipes, recipes, handleAddRecipe }) {
             reference: reference,
             instructions: recipeInstructions
         };
-        fetch("http://127.0.0.1:5555/recipes", {
+        fetch("/recipes", {
             method: "POST",
             headers: {
                 "Content-Type": "Application/JSON",
@@ -71,14 +68,29 @@ function AddRecipe({ setRecipes, recipes, handleAddRecipe }) {
                 setReference("");
                 setRecipeInstructions("");
                 
-                let recipeId = newRecipeData.id;
+                // const userRecipeData = {
+                //     user_id: user.id,
+                //     recipe_id: newRecipeData.id,
+                //     not_reorder: false,
+                //     comments: ''
+                // };
+                // fetch("http://127.0.0.1:5555/userrecipe", {
+                //     method: "POST",
+                //     headers: {
+                //         "Content-Type": "Application/JSON",
+                //     },
+                //     body: JSON.stringify(userRecipeData),
+                // })
+                // .then((response) => response.json())
+                // .then((newUserRecipe) => {
+                //     setRecipes([...recipes, newRecipeData]);
+                // });
                 selectedTags && selectedTags.length > 0 && selectedTags.map(tag => {
-                    console.log(recipeId)
                     const tagData = {
-                        recipe_id: recipeId,
+                        recipe_id: newRecipeData.id,
                         tag_id: tag.id,
                     };
-                    fetch("http://127.0.0.1:5555/recipetags", {
+                    fetch("/recipetags", {
                         method: "POST",
                         headers: {
                             "Content-Type": "Application/JSON",
@@ -91,21 +103,10 @@ function AddRecipe({ setRecipes, recipes, handleAddRecipe }) {
                         setSelectedTags([]);
                     });
                 });
-                setRecipes([...recipes, newRecipeData]);
+                
+                setRecipes([newRecipeData, ...recipes]);
                 handleAddRecipe(event);
             });
-        
-        // recipes && recipes.map((recipe) => {
-        //     console.log(`the recipe name is ${recipe.name}`)
-        //     console.log(`the inputted name is ${name}`)
-        //     console.log(`recipe id is ${recipe.id}`)
-        //     if (recipe.name === name) {
-        //         recipeId = recipe.id;
-        //     }
-        //     return recipeId;
-        // })
-
-        
     };
 
 
